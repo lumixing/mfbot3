@@ -1,5 +1,10 @@
 require("dotenv").config();
 
+const app = require("express")();
+
+app.get("/", (req, res) => res.send("Server is up."));
+app.listen(3000);
+
 const Discord = require("discord.js");
 
 const client = new Discord.Client({
