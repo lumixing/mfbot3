@@ -17,6 +17,7 @@
     },
     "homepage": "https://github.com/lumixing/mfbot#readme",
     "dependencies": {
+        "an-array-of-english-words": "^2.0.0",
         "chalk": "^4.1.2",
         "discord.js": "^13.6.0",
         "dotenv": "^14.3.2",
