@@ -12,7 +12,11 @@ module.exports = {
         try {
             let result = await eval(code);
             result = JSON.stringify(result, null, 2);
-            result = result.replaceAll("\\n", "\n");
+
+            if (hasFlag(flags, "r")) {
+                result = result.replaceAll("\\n", "\n");
+            }
+
             result = Discord.Formatters.codeBlock("json", result);
 
             if (!hasFlag(flags, "n")) {
@@ -40,6 +44,11 @@ module.exports = {
         {
             key: "n",
             description: "no return message",
+            needsArgument: false
+        },
+        {
+            key: "r",
+            description: "replace output \\n with new line",
             needsArgument: false
         }
     ],
