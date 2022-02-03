@@ -2,8 +2,9 @@ const { prefix, developers } = require("../../config.json");
 
 // TODO: maybe refactor this with more object orianted shit and documentation
 module.exports = async (Discord, client, msg) => {
-    if (!msg.content.startsWith(prefix)) return;
+    if (msg.channel.type !== "GUILD_TEXT") return;
     if (msg.author.bot) return;
+    if (!msg.content.startsWith(prefix)) return;
 
     let args = msg.content.slice(prefix.length).split(/\s+/);
     const cmd = args.shift().toLowerCase();
