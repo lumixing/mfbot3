@@ -18,11 +18,11 @@ module.exports = {
         const message = await msg.reply("you will die in *???*\ncause of death: *???*");
 
         setTimeout(() => {
-            message.edit(`you will die in <t:${time}:R>\ncause of death: *???*`);
+            message.edit(`you will die <t:${time}:R>\ncause of death: *???*`);
         }, 2000);
 
         setTimeout(() => {
-            message.edit(`you will die in <t:${time}:R>\ncause of death: **${death}**`);
+            message.edit(`you will die <t:${time}:R>\ncause of death: **${death}**`);
         }, 5000);
     },
     name: "death",

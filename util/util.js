@@ -1,3 +1,5 @@
+const _ = require("underscore");
+
 module.exports = {
     hasFlag(flags, key) {
         return Boolean(flags.find((f) => f.key === key));
@@ -14,5 +16,8 @@ module.exports = {
     },
     randomFloat(min, max) {
         return Math.random() * (max - min) + min;
+    },
+    setDefaults(options, defaults) {
+        return _.defaults({}, _.clone(options), defaults);
     }
 }
