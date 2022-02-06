@@ -8,6 +8,7 @@ module.exports = {
             " · added `;clear`",
             " · added `;quad`",
             " · added `;randomword`",
+            " · added `;changelog`",
             " · added `;eval -r` flag",
             "**fixes:**",
             " · fixed `;death` \"in in\" text"
