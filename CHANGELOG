@@ -1,0 +1,19 @@
+mfbot 2.0.0 (2022.01.27)
+new:
+- added command flags
+- added new commands
+
+improved:
+- improved everything overall
+
+mfbot 2.0.1 (2022.02.06)
+new:
+- added ;wordle
+- added ;clear
+- added ;quad
+- added ;randomword
+- added ;changelog
+- added ;eval -r flag
+
+fixes:
+- fixed ;death "in in" text
