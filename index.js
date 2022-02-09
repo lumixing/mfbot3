@@ -13,7 +13,15 @@ const client = new Discord.Client({
         "GUILDS",
         "GUILD_MESSAGES",
         "DIRECT_MESSAGES"
-    ]
+    ],
+    presence: {
+        activities: [
+            {
+                name: "as the best bot",
+                type: "PLAYING"
+            }
+        ]
+    }
 });
 
 console.clear();
