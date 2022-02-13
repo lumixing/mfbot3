@@ -1,10 +1,16 @@
-mfbot 2.0.0 (2022.01.27)
+mfbot 2.0.2 (2022.02.13)
 new:
-- added command flags
-- added new commands
+- added ;gif
+- added ;nuke
+- added ;invite
+- added ;length
+- added ;muteall
+- added ;unmuteall
+- added ;emote
+- added ;pfp
 
 improved:
-- improved everything overall
+- changed bot status text
 
 mfbot 2.0.1 (2022.02.06)
 new:
@@ -17,3 +23,11 @@ new:
 
 fixes:
 - fixed ;death "in in" text
+
+mfbot 2.0.0 (2022.01.27)
+new:
+- added command flags
+- added new commands
+
+improved:
+- improved everything overall

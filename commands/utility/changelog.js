@@ -4,14 +4,16 @@ module.exports = {
     async execute(Discord, client, msg, args, flags) {
         const descriptionArray = [
             "**new:**",
-            " · added `;wordle`",
-            " · added `;clear`",
-            " · added `;quad`",
-            " · added `;randomword`",
-            " · added `;changelog`",
-            " · added `;eval -r` flag",
-            "**fixes:**",
-            " · fixed `;death` \"in in\" text"
+            " · added `;gif`",
+            " · added `;nuke`",
+            " · added `;invite`",
+            " · added `;length`",
+            " · added `;muteall`",
+            " · added `;unmuteall`",
+            " · added `;emote`",
+            " · added `;pfp`",
+            "**improved:**",
+            " · changed bot status text"
         ];
 
         msg.reply({
@@ -23,7 +25,7 @@ module.exports = {
                 },
                 description: descriptionArray.join("\n"),
                 footer: {
-                    text: "2022.02.06"
+                    text: "2022.02.13"
                 }
             }]
         });
