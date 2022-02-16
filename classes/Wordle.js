@@ -137,7 +137,17 @@ class Wordle {
         }
 
         const filter = (m) => m.author.id === this.msg.author.id;
-        const collection = await this.msg.channel.awaitMessages({ filter, max: 1 });
+        let collection;
+
+        try {
+            collection = await this.msg.channel.awaitMessages({ filter, max: 1, time: 300000, errors: ["time"] });
+        }
+        catch (err) {
+            this.msg.reply("timed out!");
+            this.endGame();
+            return;
+        }
+
         const message = collection.first();
         const reply = message.content.toLowerCase();
 
