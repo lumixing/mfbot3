@@ -13,7 +13,8 @@ const client = new Discord.Client({
         "GUILDS",
         "GUILD_MESSAGES",
         "DIRECT_MESSAGES",
-        "GUILD_VOICE_STATES"
+        "GUILD_VOICE_STATES",
+        "GUILD_MESSAGE_REACTIONS"
     ],
     presence: {
         activities: [

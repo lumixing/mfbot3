@@ -19,33 +19,7 @@ class Wordle {
         this.word = words[~~(Math.random() * commonWords.length)];
 
         if (this.mention) {
-            this.mention.send(`type a **five-letter valid word** for ${this.player.username} to solve\ntype \`abort\` to cancel the game`)
-                .then(async (m) => {
-                    const waitMessage = await this.msg.reply(`waiting for ${this.mention.user.username}'s response...`);
-
-                    const filter = (m) => /^[a-zA-Z]{5}$/.test(m.content) && words.includes(m.content.toLowerCase());
-                    const collection = await m.channel.awaitMessages({ filter, max: 1 });
-                    const reply = collection.first().content.toLowerCase();
-
-                    if (reply === "abort") {
-                        this.mention.send("canceled the game");
-                        waitMessage.edit(`${this.mention.user.username} canceled the game`)
-                            .catch(() => this.msg.reply(`${this.mention.user.username} canceled the game`));
-                        this.endGame();
-                        return;
-                    }
-
-                    this.mention.send(`using **${reply}** as the word`);
-                    waitMessage.delete().catch(() => { });
-                    this.word = reply;
-                    this.sendMessage({ edit: false, message: `used ${this.mention.user.username}'s word` });
-                })
-                .catch((e) => {
-                    console.log(e);
-                    this.msg.reply(`could not send ${this.mention.user.username} a message, canceling game`);
-                    this.endGame();
-                    return;
-                });
+            this.manageMentioned();
         }
 
         else {
@@ -70,6 +44,79 @@ class Wordle {
     initState() {
         // new Array(n).fill() creates refrences and not values so this is better
         this.state = Array.from({ length: 6 }, e => Array.from({ length: 5 }, e => { return {} }));
+    }
+
+    async manageMentioned() {
+        if (this.mention.user.bot) {
+            this.msg.reply("a bot cant send you a word!");
+            this.endGame();
+            return;
+        }
+
+        const waitMessage = await this.msg.reply(`waiting for ${this.mention.user.username}'s reaction...`);
+        await waitMessage.react("✅");
+        await waitMessage.react("🚫");
+
+        const reactionFilter = (r, u) => ["✅", "🚫"].includes(r.emoji.name) && u.id === this.mention.id;
+        let collection;
+
+        try {
+            collection = await waitMessage.awaitReactions({ filter: reactionFilter, max: 1, time: 60000, errors: ["time"] });
+        }
+        catch (err) {
+            waitMessage.edit(`timed out ${this.mention.user.username}'s response!`)
+                .catch(() => this.msg.reply(`timed out ${this.mention.user.username}'s response!`));
+            this.endGame();
+            return;
+        }
+
+        if (collection.first().emoji.name === "🚫") {
+            waitMessage.edit(`${this.mention.user.username} rejected the game request!`)
+                .catch(() => this.msg.reply(`${this.mention.user.username} rejected the game request!`));
+            this.endGame();
+            return;
+        }
+
+        this.mention.send(`type a **five-letter valid word** for ${this.player.username} to solve\ntype \`abort\` to cancel the game`)
+            .then(async (m) => {
+                waitMessage.edit(`waiting for ${this.mention.user.username}'s response...`)
+                    .catch(() => this.msg.reply(`waiting for ${this.mention.user.username}'s response...`));
+
+                const filter = (m) => /^[a-zA-Z]{5}$/.test(m.content) && words.includes(m.content.toLowerCase());
+                let collection;
+
+                try {
+                    collection = await m.channel.awaitMessages({ filter, max: 1, time: 60000, errors: ["time"] });
+                }
+                catch (err) {
+                    this.mention.send("timed out!");
+                    waitMessage.edit(`${this.mention.user.username} timed out!`)
+                        .catch(() => this.msg.reply(`${this.mention.user.username} timed out!`));
+                    this.endGame();
+                    return;
+                }
+
+                const reply = collection.first().content.toLowerCase();
+
+                if (reply === "abort") {
+                    this.mention.send("canceled the game");
+                    waitMessage.edit(`${this.mention.user.username} canceled the game`)
+                        .catch(() => this.msg.reply(`${this.mention.user.username} canceled the game`));
+                    this.endGame();
+                    return;
+                }
+
+                this.mention.send(`using **${reply}** as the word!`);
+                waitMessage.delete().catch(() => { });
+                this.word = reply;
+                this.sendMessage({ edit: false, message: `used ${this.mention.user.username}'s word` });
+            })
+            .catch((e) => {
+                console.log(e);
+                this.msg.reply(`could not send ${this.mention.user.username} a message, canceling game!`);
+                this.endGame();
+                return;
+            });
     }
 
     async sendMessage(options) {
